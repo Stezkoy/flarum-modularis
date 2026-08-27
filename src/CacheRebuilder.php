@@ -33,6 +33,7 @@ class CacheRebuilder
             }
 
             $byScope[$scope][] = [
+                'id'   => $style->id,
                 'name' => $style->name,
                 'css'  => $css,
             ];

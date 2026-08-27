@@ -6,6 +6,10 @@ import StyleListItem from './StyleListItem';
 
 const PREFIX = 'stezkoy-modularis.admin.';
 
+function styleId(style) {
+  return typeof style.id === 'function' ? style.id() : style.id;
+}
+
 export default class ModularisAdminPage extends ExtensionPage {
   oninit(vnode) {
     super.oninit(vnode);
@@ -112,7 +116,7 @@ export default class ModularisAdminPage extends ExtensionPage {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'modularis-styles.json';
+      a.download = this.exportFileName();
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -122,6 +126,14 @@ export default class ModularisAdminPage extends ExtensionPage {
     } catch (err) {
       app.alerts.show({ type: 'error' }, app.translator.trans(PREFIX + 'export_failed'));
     }
+  }
+
+  exportFileName() {
+    const d = new Date();
+    const pad = (n) => String(n).padStart(2, '0');
+    const stamp =
+      d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + '-' + pad(d.getHours()) + pad(d.getMinutes());
+    return 'modularis-' + stamp + '.json';
   }
 
   importStyles(raw) {
@@ -229,10 +241,10 @@ export default class ModularisAdminPage extends ExtensionPage {
             'ul.ModularisStyleList',
             sectionStyles.map((style) =>
               m(StyleListItem, {
-                key: style.id(),
+                key: styleId(style),
                 style,
-                loading: this.savingId === style.id(),
-                ontoggle: this.toggle.bind(this),
+                loading: this.savingId === styleId(style),
+                ontoggle: this.toggleStyle.bind(this),
                 onedit: this.edit.bind(this),
                 ondelete: this.delete.bind(this),
               })
@@ -272,8 +284,14 @@ export default class ModularisAdminPage extends ExtensionPage {
     this.openModal(style, style.scope());
   }
 
-  toggle(style, value) {
-    this.savingId = style.id();
+  toggleStyle(style, value) {
+    this.savingId = styleId(style);
+
+    if (typeof style.save !== 'function') {
+      app.alerts.show({ type: 'error' }, app.translator.trans(PREFIX + 'request_error'));
+      m.redraw();
+      return;
+    }
 
     style
       .save({ active: value })

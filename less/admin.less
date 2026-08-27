@@ -120,11 +120,22 @@
   }
 
   &-title {
-    display: block;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
     font-weight: 600;
     overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  &-id {
+    flex: none;
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: var(--muted-color);
+    background: var(--control-bg);
+    border-radius: 4px;
+    padding: 1px 6px;
   }
 
   &-css {

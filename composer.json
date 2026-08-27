@@ -2,7 +2,7 @@
   "name": "stezkoy/flarum-modularis",
   "type": "flarum-extension",
   "description": "Manage custom CSS styles for the forum and the admin panel with simple grouping, per-style activation and caching.",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "license": "MIT",
   "authors": [
     {

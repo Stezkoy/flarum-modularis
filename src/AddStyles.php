@@ -37,7 +37,7 @@ abstract class AddStyles
             }
 
             $document->head[] = '<style id="modularis-' . e($scope)
-                . '-' . e((string) $style['name']) . '">'
+                . '-' . e((string) ($style['id'] ?? $style['name'])) . '">'
                 . $css . '</style>';
         }
     }

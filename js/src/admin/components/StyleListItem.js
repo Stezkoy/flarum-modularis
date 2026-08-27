@@ -3,6 +3,10 @@ import Switch from 'flarum/common/components/Switch';
 import Button from 'flarum/common/components/Button';
 const PREFIX = 'stezkoy-modularis.admin.';
 
+function styleId(style) {
+  return typeof style.id === 'function' ? style.id() : style.id;
+}
+
 export default class StyleListItem extends Component {
   view() {
     const style = this.attrs.style;
@@ -10,7 +14,10 @@ export default class StyleListItem extends Component {
 
     return m('li.ModularisStyleListItem', [
       m('.ModularisStyleListItem-name', [
-        m('span.ModularisStyleListItem-title', style.name()),
+        m('span.ModularisStyleListItem-title', [
+          style.name(),
+          m('span.ModularisStyleListItem-id', '#' + styleId(style)),
+        ]),
         m('span.ModularisStyleListItem-css', style.css() || ''),
       ]),
       m('.ModularisStyleListItem-controls', [
