@@ -235,7 +235,6 @@
 
   &.selected {
     background: color-mix(in srgb, var(--primary-color) 12%, var(--control-bg));
-    border-color: var(--primary-color);
   }
 
   .Checkbox {
@@ -247,7 +246,8 @@
     box-sizing: border-box;
 
     &:hover {
-      background: var(--control-bg-light);
+      background: color-mix(in srgb, var(--primary-color) 8%, var(--control-bg));
+      border-radius: 6px;
     }
 
     .Checkbox-display {
