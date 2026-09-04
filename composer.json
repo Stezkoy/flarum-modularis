@@ -12,7 +12,8 @@
   ],
   "support": {
     "source": "https://github.com/Stezkoy/flarum-modularis",
-    "issues": "https://github.com/Stezkoy/flarum-modularis/issues"
+    "issues": "https://github.com/Stezkoy/flarum-modularis/issues",
+    "forum": "https://discuss.flarum.org/d/39801-modularis-manage-custom-css-styles-for-the-forum-and-the-admin-panel"
   },
   "require": {
     "flarum/core": "^2.0",
