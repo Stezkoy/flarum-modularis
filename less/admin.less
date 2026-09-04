@@ -201,20 +201,26 @@
 
   &-actions {
     display: flex;
+    align-items: center;
     gap: 8px;
     margin-bottom: 10px;
+    flex-wrap: wrap;
+
+    &Spacer {
+      flex: 1 1 auto;
+    }
   }
 
   &-count {
-    margin-bottom: 16px;
     color: var(--muted-color);
     font-size: 0.85rem;
+    white-space: nowrap;
   }
 }
 
 .ModularisExportList {
   list-style: none;
-  margin: 0 0 10px;
+  margin: 0 0 16px;
   padding: 0;
   display: grid;
   gap: 6px;
@@ -224,15 +230,34 @@
 
 .ModularisExportListItem {
   background: var(--control-bg);
+  border: 1px solid transparent;
   border-radius: 6px;
-  padding: 4px 8px;
 
-  &:hover {
-    background: var(--control-bg-light);
+  &.selected {
+    background: color-mix(in srgb, var(--primary-color) 12%, var(--control-bg));
+    border-color: var(--primary-color);
   }
 
   .Checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
     width: 100%;
+    box-sizing: border-box;
+
+    &:hover {
+      background: var(--control-bg-light);
+    }
+
+    .Checkbox-display {
+      flex: none;
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   &-info {
@@ -240,6 +265,7 @@
     align-items: center;
     gap: 10px;
     min-width: 0;
+    flex: 1 1 auto;
   }
 
   &-name {

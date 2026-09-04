@@ -31,8 +31,8 @@ export default class ExportModal extends Modal {
             m(
               Button,
               {
-                className: 'Button Button--icon',
-                icon: 'fas fa-check-square',
+                className: 'Button',
+                icon: 'fas fa-check-double',
                 disabled: this.allSelected(),
                 onclick: () => this.setAll(true),
               },
@@ -41,19 +41,20 @@ export default class ExportModal extends Modal {
             m(
               Button,
               {
-                className: 'Button Button--icon',
-                icon: 'fas fa-square',
+                className: 'Button',
+                icon: 'fas fa-undo',
                 disabled: this.countSelected() === 0,
                 onclick: () => this.setAll(false),
               },
               app.translator.trans(PREFIX + 'export_select_none')
             ),
+            m('span.ModularisExportModal-actionsSpacer'),
+            m('span.ModularisExportModal-count', app.translator.trans(PREFIX + 'export_modal_count', { count: this.countSelected() })),
           ])
         : null,
       this.styles.length
         ? m('ul.ModularisExportList', this.styles.map((style) => this.checkboxRow(style)))
         : m('.ModularisExportModal-empty', app.translator.trans(PREFIX + 'empty')),
-      m('.ModularisExportModal-count', app.translator.trans(PREFIX + 'export_modal_count', { count: this.countSelected()} )),
       m('.Form-group.Form-controls', [
         m(
           Button,
@@ -80,7 +81,7 @@ export default class ExportModal extends Modal {
     const id = styleId(style);
     const checked = !!this.selected[id];
 
-    return m('.ModularisExportListItem', [
+    return m('li.ModularisExportListItem' + (checked ? '.selected' : ''), [
       m(
         Checkbox,
         {
