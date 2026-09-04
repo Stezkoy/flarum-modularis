@@ -18,6 +18,9 @@ stezkoy-modularis:
     import_button: Импорт
     export_success: Стили экспортированы.
     export_failed: Не удалось экспортировать стили.
+    export_modal_title: Экспорт стилей
+    export_modal_help: Выберите, какие стили экспортировать.
+    export_selected: "Экспортировать ({count})"
     import_confirm: "Будет импортировано стилей: {count}. Продолжить?"
     import_confirm_button: Импортировать
     import_success: "Импортировано стилей: {count}."

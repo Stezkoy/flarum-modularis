@@ -2,6 +2,7 @@ import ExtensionPage from 'flarum/admin/components/ExtensionPage';
 import Button from 'flarum/common/components/Button';
 import StyleModal from './StyleModal';
 import ConfirmModal from './ConfirmModal';
+import ExportModal from './ExportModal';
 import StyleListItem from './StyleListItem';
 
 const PREFIX = 'stezkoy-modularis.admin.';
@@ -96,11 +97,18 @@ export default class ModularisAdminPage extends ExtensionPage {
   }
 
   exportStyles() {
+    app.modal.show(ExportModal, {
+      styles: this.styles,
+      onexport: this.downloadExport.bind(this),
+    });
+  }
+
+  downloadExport(selectedStyles) {
     try {
       const data = JSON.stringify(
         {
           version: 1,
-          styles: this.styles.map((style) => ({
+          styles: selectedStyles.map((style) => ({
             name: style.name(),
             css: style.css(),
             scope: style.scope(),
