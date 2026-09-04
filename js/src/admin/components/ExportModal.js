@@ -1,5 +1,6 @@
 import Modal from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
+import Checkbox from 'flarum/common/components/Checkbox';
 
 const PREFIX = 'stezkoy-modularis.admin.';
 
@@ -12,13 +13,10 @@ export default class ExportModal extends Modal {
     super.oninit(vnode);
     this.styles = this.attrs.styles || [];
     this.selected = {};
-    this.styles.forEach((style) => {
-      this.selected[styleId(style)] = true;
-    });
   }
 
   className() {
-    return 'ModularisExportModal Modal--small';
+    return 'ModularisExportModal';
   }
 
   title() {
@@ -29,8 +27,33 @@ export default class ExportModal extends Modal {
     return m('div.Modal-body', [
       m('p.ModularisExportModal-help', app.translator.trans(PREFIX + 'export_modal_help')),
       this.styles.length
+        ? m('.ModularisExportModal-actions', [
+            m(
+              Button,
+              {
+                className: 'Button Button--icon',
+                icon: 'fas fa-check-square',
+                disabled: this.allSelected(),
+                onclick: () => this.setAll(true),
+              },
+              app.translator.trans(PREFIX + 'export_select_all')
+            ),
+            m(
+              Button,
+              {
+                className: 'Button Button--icon',
+                icon: 'fas fa-square',
+                disabled: this.countSelected() === 0,
+                onclick: () => this.setAll(false),
+              },
+              app.translator.trans(PREFIX + 'export_select_none')
+            ),
+          ])
+        : null,
+      this.styles.length
         ? m('ul.ModularisExportList', this.styles.map((style) => this.checkboxRow(style)))
         : m('.ModularisExportModal-empty', app.translator.trans(PREFIX + 'empty')),
+      m('.ModularisExportModal-count', app.translator.trans(PREFIX + 'export_modal_count', { count: this.countSelected()} )),
       m('.Form-group.Form-controls', [
         m(
           Button,
@@ -57,23 +80,37 @@ export default class ExportModal extends Modal {
     const id = styleId(style);
     const checked = !!this.selected[id];
 
-    return m('li.ModularisExportListItem', [
-      m('label.ModularisExportListItem-label', [
-        m('input[type=checkbox]', {
-          checked,
-          onchange: (e) => {
-            this.selected[id] = e.target.checked;
+    return m('.ModularisExportListItem', [
+      m(
+        Checkbox,
+        {
+          state: checked,
+          onchange: (val) => {
+            this.selected[id] = val;
             m.redraw();
           },
-        }),
-        m('span.ModularisExportListItem-name', style.name()),
-        m('span.ModularisExportListItem-meta', style.scope()),
-      ]),
+        },
+        m('.ModularisExportListItem-info', [
+          m('span.ModularisExportListItem-name', style.name()),
+          m('span.ModularisExportListItem-meta', style.scope()),
+        ])
+      ),
     ]);
   }
 
   countSelected() {
     return Object.values(this.selected).filter(Boolean).length;
+  }
+
+  allSelected() {
+    return this.styles.length > 0 && this.countSelected() === this.styles.length;
+  }
+
+  setAll(value) {
+    this.styles.forEach((style) => {
+      this.selected[styleId(style)] = value;
+    });
+    m.redraw();
   }
 
   export() {

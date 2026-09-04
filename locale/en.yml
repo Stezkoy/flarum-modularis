@@ -21,6 +21,9 @@ stezkoy-modularis:
     export_modal_title: Export styles
     export_modal_help: Choose which styles to export.
     export_selected: "Export {count}"
+    export_select_all: Select all
+    export_select_none: Clear all
+    export_modal_count: "{count} selected"
     import_confirm: "Styles to import: {count}. Continue?"
     import_confirm_button: Import
     import_success: "Imported styles: {count}."
